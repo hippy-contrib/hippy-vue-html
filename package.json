@@ -10,6 +10,7 @@
   "author": "kiritocui",
   "license": "Apache-2.0",
   "scripts": {
+    "dev": "rollup --watch --config rollup.config.js",
     "build": "rollup --config rollup.config.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
