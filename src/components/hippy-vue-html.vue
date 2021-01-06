@@ -65,43 +65,57 @@
         }
       })
     },
+    methods: {
+      init() {
+        // 参数初始化
+        tree = {};
+        current = undefined;
+        current = createNode('div', '');
+        root = current;
+      },
+      parseTree() {
+        htmlParser.parse(this.html, {
+          openElement (name) {
+            if (supportTags.indexOf(name) > -1) current = createNode(name, '');
+          },
+          closeElement (name) {
+            if (supportTags.indexOf(name) === -1) return;
+            current = tree[current].parent;
+          },
+          closeOpenedElement (name) {
+            // 单标签移动指针到父节点
+            if (singleTags.indexOf(name) !== -1) current = tree[current].parent;
+          },
+          attribute (name, value) {
+            if (name === 'style') {
+              const styles = {};
+              value.split(';').map(item => {
+                if (item || item.split(':')[0]) {
+                  styles[item.split(':')[0]] = item.split(':')[1].trim();
+                }
+              });
+              // 如果存在自定义style则合并/覆盖标签自带属性
+              tree[current].styles = Object.assign(tree[current].styles, styles);
+            } else {
+              if (!tree[current].attrs) tree[current].attrs = {};
+              tree[current].attrs[name] = value;
+            }
+          },
+          text (value) {
+            createNode('text', value);
+          },
+        });
+        this.tree = tree;
+      }
+    },
     created() {
+      this.init();
+      // 监听点击链接事件
       Bus.$on('link-press', params => {
           this.$emit('link-press', params);
       });
       // 解析html富文本，建立文档树
-      htmlParser.parse(this.html, {
-        openElement (name) {
-          if (supportTags.indexOf(name) > -1) current = createNode(name, '');
-        },
-        closeElement (name) {
-          if (supportTags.indexOf(name) === -1) return;
-          current = tree[current].parent;
-        },
-        closeOpenedElement (name) {
-          // 单标签移动指针到父节点
-          if (singleTags.indexOf(name) !== -1) current = tree[current].parent;
-        },
-        attribute (name, value) {
-          if (name === 'style') {
-            const styles = {};
-            value.split(';').map(item => {
-              if (item || item.split(':')[0]) {
-                styles[item.split(':')[0]] = item.split(':')[1].trim();
-              }
-            });
-            // 如果存在自定义style则合并/覆盖标签自带属性
-            tree[current].styles = Object.assign(tree[current].styles, styles);
-          } else {
-            if (!tree[current].attrs) tree[current].attrs = {};
-            tree[current].attrs[name] = value;
-          }
-        },
-        text (value) {
-          createNode('text', value);
-        },
-      });
-      this.tree = tree;
+      this.parseTree();
     },
   };
 </script>

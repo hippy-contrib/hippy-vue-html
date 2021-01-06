@@ -12,8 +12,11 @@
   "scripts": {
     "dev": "rollup --watch --config rollup.config.js",
     "build": "rollup --config rollup.config.js",
+    "build:version": "yarn version --patch --message \"chore(release): publish v%s\"",
     "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src"
+    "lint:fix": "eslint --fix ./src",
+    "prepare": "install-peers",
+    "pub": "yarn build && yarn build:version && npm publish --tag beta && git push"
   },
   "dependencies": {
     "uuid": "^3.0.0"
@@ -27,7 +30,9 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
+    "core-js": "^3.8.2",
     "eslint": "^7.5.0",
+    "install-peers-cli": "^2.2.0",
     "rollup-plugin-babel": "3.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
