@@ -24,9 +24,8 @@
       width: 100,
     },
   };
-  let tree = {}, current = createNode('div', ''), root = current; // 文档树构建参数
 
-  function createNode(type, text) { // 文档树节点创建
+  function createNode(tree, type, text, current) { // 文档树节点创建
     const id = uuidv4();
     if (current) tree[current].content.push(id);
     tree[id] = {
@@ -50,33 +49,38 @@
     },
     data() {
       return {
-        tree: {}
+        tree: {},
+        root: '',
       }
     },
     components: {
       hippyVueHtmlElement,
     },
+    watch: {
+      html: {
+        handler() {
+          this.parseTree();
+        },
+        immediate: true,
+      }
+    },
     render (h) {
-      if (!this.tree[root]) return h('span'); // 未解析完成时默认渲染空内容
+      if (!this.root || !this.tree[this.root]) return h('span'); // 未解析完成时默认渲染空内容
       else return h('hippy-vue-html-element', { // 按照文档树结构递归使用render函数渲染
         props: {
           tree: this.tree,
-          root,
+          root: this.root,
         }
       })
     },
     methods: {
-      init() {
-        // 参数初始化
-        tree = {};
-        current = undefined;
-        current = createNode('div', '');
-        root = current;
-      },
       parseTree() {
+        const tree = {};
+        let current = createNode(tree, 'div', '');
+        const root = current; // 文档树构建参数
         htmlParser.parse(this.html, {
           openElement (name) {
-            if (supportTags.indexOf(name) > -1) current = createNode(name, '');
+            if (supportTags.indexOf(name) > -1) current = createNode(tree, name, '', current);
           },
           closeElement (name) {
             if (supportTags.indexOf(name) === -1) return;
@@ -102,20 +106,18 @@
             }
           },
           text (value) {
-            createNode('text', value);
+            createNode(tree, 'text', value, current);
           },
         });
+        this.root = root;
         this.tree = tree;
       }
     },
     created() {
-      this.init();
       // 监听点击链接事件
       Bus.$on('link-press', params => {
           this.$emit('link-press', params);
       });
-      // 解析html富文本，建立文档树
-      this.parseTree();
     },
   };
 </script>

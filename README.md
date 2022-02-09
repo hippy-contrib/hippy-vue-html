@@ -36,7 +36,7 @@ Vue.use(HippyVueHtml);
 使用：
 ```vue
 <template>
-    <hippy-html :html="text" @link-press="pressed"></hippy-html>
+    <hippy-vue-html :html="text" @link-press="pressed"></hippy-vue-html>
 </template>
 <script>
     export default {
