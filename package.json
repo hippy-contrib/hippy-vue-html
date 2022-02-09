@@ -16,14 +16,12 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "prepare": "install-peers",
-    "pub": "yarn build && yarn build:version && npm publish --tag beta && git push"
+    "pub": "yarn build && yarn build:version &&  yarn publish --tag beta --new-version $npm_package_version && git push"
   },
   "dependencies": {
     "uuid": "^3.0.0"
   },
-  "peerDependencies": {
-    "vue": "^2.6.12"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.2",
     "babel-core": "^6.26.3",
@@ -37,6 +35,6 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-vue": "5.0.0",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.14"
   }
 }
