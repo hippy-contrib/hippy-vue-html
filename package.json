@@ -16,7 +16,7 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "prepare": "install-peers",
-    "pub": "yarn build && yarn build:version &&  yarn publish --tag beta --new-version $npm_package_version && git push"
+    "pub": "yarn build && yarn build:version && npm publish --new-version $npm_package_version && git push"
   },
   "dependencies": {
     "uuid": "^3.0.0"
