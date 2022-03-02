@@ -1,7 +1,6 @@
 <script>
   import hippyVueHtmlElement from './hippy-vue-html-element';
   import htmlParser from '../utils/html-parser/parser';
-  import { v4 as uuidv4 } from 'uuid';
   import Bus from '../utils/bus.js';
 
   const singleTags = ['img', 'input']; // br特殊处理
@@ -24,9 +23,10 @@
       width: 100,
     },
   };
+  let id = 0; // 使用自增id
 
   function createNode(tree, type, text, current) { // 文档树节点创建
-    const id = uuidv4();
+    id += 1;
     if (current) tree[current].content.push(id);
     tree[id] = {
       id,
@@ -76,6 +76,7 @@
     methods: {
       parseTree() {
         const tree = {};
+        id = 0;
         let current = createNode(tree, 'div', '');
         const root = current; // 文档树构建参数
         htmlParser.parse(this.html, {

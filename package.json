@@ -15,12 +15,9 @@
     "build:version": "yarn version --patch --message \"chore(release): publish v%s\"",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
-    "prepare": "install-peers",
     "pub": "yarn build && yarn build:version && npm publish && git push"
   },
-  "dependencies": {
-    "uuid": "^3.0.0"
-  },
+  "dependencies": {},
   "peerDependencies": {},
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.2",
