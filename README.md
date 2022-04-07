@@ -1,6 +1,5 @@
-
 # hippy-vue-html
-hippy-vue-html是vue版本的hippy富文本组件，支持解析传入的HTML片段并渲染成hippy可以支持的vue结构。目前支持了hippy原生支持的`button`、`div`、`img`、`span`、`p`、`ul`、`span`等标签，进行了一些转化并支持了`a`、`b`、`strong`等标签，其他标签则不解析或转化为span标签(div标签在hippy中不显示text).
+hippy-vue-html是vue版本的零依赖hippy富文本组件，支持解析传入的HTML片段并渲染成hippy可以支持的vue结构。目前支持了hippy原生支持的`button`、`div`、`img`、`span`、`p`、`ul`、`span`等标签，进行了一些转化并支持了`a`、`b`、`strong`等标签，其他标签则不解析或转化为span标签(div标签在hippy中不显示text)。
 
 欢迎MR与issues，一起学习。
 
@@ -18,6 +17,7 @@ npm install -S hippy-vue-html
 | 参数 | 说明             | 类型   | 可选值 | 默认值 |
 | ---- | ---------------- | ------ | ------ | ------ |
 | html | 要渲染的html原文 | String | -      | -      |
+| styles | 针对标签的默认css样式 | Object | -      | -      |
 
 #### 事件
 
@@ -36,13 +36,22 @@ Vue.use(HippyVueHtml);
 使用：
 ```vue
 <template>
-    <hippy-vue-html :html="text" @link-press="pressed"></hippy-vue-html>
+    <hippy-vue-html :html="text" :styles="styles" @link-press="pressed"></hippy-vue-html>
 </template>
 <script>
     export default {
       data() {
         return {
           text: '<p style="line-height: 22px;color: #666666;"><b>Hippy</b>(<a href="https://hippyjs.org">https://hippyjs.org</a>)是为前端开发人员设计的跨端框架，支持<b>React</b>和<b>Vue</b>两种语法，可平滑迁移到<b>Web</b>。iOS增量<p style="color: red;">1MB</p>，Android增量最小<p style="color: red;">2.5MB</p></p><img style="height: 280px;width: 340px;" src="xxx"/>',
+          styles: {
+            p: {
+              color: '#666666'
+            },
+            img: {
+              height: 400,
+              width: 400,
+            }
+		      }
         };
       },
       methods: {

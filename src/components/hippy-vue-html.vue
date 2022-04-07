@@ -21,7 +21,7 @@ const supportTags = [
   'text',
   'a', // 支持的成对标签
 ];
-const defaultStylesMap = {
+let stylesMap = {
   // 标签默认样式
   a: {
     color: 'blue',
@@ -46,7 +46,7 @@ function createNode(tree, type, text, current) {
   tree[id] = {
     id,
     type,
-    styles: defaultStylesMap[type] ? defaultStylesMap[type] : {},
+    styles: stylesMap[type] ? stylesMap[type] : {},
     content: [],
     text,
     parent: current,
@@ -61,6 +61,10 @@ export default {
       type: String,
       default: '',
     },
+    styles: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -74,6 +78,7 @@ export default {
   watch: {
     html: {
       handler() {
+        stylesMap = Object.assign(stylesMap, this.styles);
         this.parseTree();
       },
       immediate: true,
@@ -117,7 +122,7 @@ export default {
               }
             });
             // 如果存在自定义style则合并/覆盖标签自带属性
-            tree[current].styles = Object.assign(tree[current].styles, styles);
+            tree[current].styles = Object.assign({}, tree[current].styles, styles);
           } else {
             if (!tree[current].attrs) tree[current].attrs = {};
             tree[current].attrs[name] = value;

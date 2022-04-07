@@ -1,7 +1,8 @@
-import commonjs from '@rollup/plugin-commonjs';
-import vue from 'rollup-plugin-vue';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { babel } from '@rollup/plugin-babel';
+import resolve from "rollup-plugin-node-resolve";
+import commonjs from "rollup-plugin-commonjs";
+import vue from "rollup-plugin-vue";
+import babel from "rollup-plugin-babel";
+
 
 export default {
   input: './index.js',
@@ -13,6 +14,6 @@ export default {
       vue: 'Vue',
     },
   },
-  plugins: [nodeResolve({ extensions: ['.vue'] }), commonjs(), vue(), babel()],
+  plugins: [resolve({ extensions: ['.vue'] }), commonjs(), vue(), babel()],
   external: ['vue'],
 };
