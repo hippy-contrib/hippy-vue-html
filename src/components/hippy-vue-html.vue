@@ -54,6 +54,11 @@ function createNode(tree, type, text, current) {
   return id;
 }
 
+function transformCamel(str) {
+    const regex = /-(\w)/g;
+    return str.replace(regex, ($0, $1) => $1.toUpperCase());
+}
+
 export default {
   name: 'hippy-vue-html',
   props: {
@@ -118,7 +123,7 @@ export default {
             const styles = {};
             value.split(';').map((item) => {
               if (item || item.split(':')[0]) {
-                styles[item.split(':')[0]] = item.split(':')[1].trim();
+                styles[transformCamel(item.split(':')[0])] = item.split(':')[1].trim();
               }
             });
             // 如果存在自定义style则合并/覆盖标签自带属性
