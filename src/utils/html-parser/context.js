@@ -22,7 +22,8 @@ exports.create = function (raw, callbacks, regex) {
       return next;
     },
     readUntilNonWhitespace() {
-      let value = ''; let next;
+      let value = '';
+      let next;
       while (!this.isEof()) {
         next = this.read();
         value += next;
@@ -43,7 +44,9 @@ exports.create = function (raw, callbacks, regex) {
     },
     peekIgnoreWhitespace(count) {
       count = count || 1;
-      let value = ''; let next = ''; let offset = 0;
+      let value = '';
+      let next = '';
+      let offset = 0;
       do {
         offset += 1;
         next = this.raw.charAt(this.index + offset);

@@ -2,23 +2,22 @@ const parseContext = require('./context');
 
 function readAttribute(context) {
   const name = context.readRegex(context.regex.attribute);
-  let value = null; let quote = '';
+  let value = null;
+  let quote = '';
   if (context.current === '=' || context.peekIgnoreWhitespace() === '=') {
     context.readRegex(/\s*=\s*/);
     let attributeValueRegex;
     switch (context.current) {
-      case '\'':
+      case "'":
         attributeValueRegex = /('(\\'|<%.*?%>|[^'])*?')/;
-        quote = '\'';
+        quote = "'";
         break;
       case '"':
         attributeValueRegex = /("(\\"|<%.*?%>|[^"])*?")/;
         quote = '"';
         break;
       case '<':
-        attributeValueRegex = (context.peek() === '%')
-          ? /(<%.*?%>)/
-          : /(.*?)(?=[\s><])/;
+        attributeValueRegex = context.peek() === '%' ? /(<%.*?%>)/ : /(.*?)(?=[\s><])/;
         break;
       default:
         attributeValueRegex = /(.*?)(?=[\s><])/;
@@ -29,11 +28,11 @@ function readAttribute(context) {
     value = match[1];
     context.read(match[0].length);
 
-    if (value[0] === '"' || value[0] === '\'') {
+    if (value[0] === '"' || value[0] === "'") {
       value = value.substring(1);
     }
 
-    if (value[value.length - 1] === '"' || value[value.length - 1] === '\'') {
+    if (value[value.length - 1] === '"' || value[value.length - 1] === "'") {
       value = value.substring(0, value.length - 1);
     }
   }
@@ -50,7 +49,8 @@ function readAttributes(context, isXml) {
     return context.current === '>' || (context.current === '/' && context.peekIgnoreWhitespace() === '>');
   }
 
-  let next = context.current; let handled;
+  let next = context.current;
+  let handled;
   while (!context.isEof() && !isClosingToken()) {
     handled = false;
     if (context.current === '<') {
@@ -99,9 +99,20 @@ function readAttributes(context, isXml) {
 
 function readCloserForOpenedElement(context, name) {
   const emptyElements = {
-    area: true, base: true, basefont: true, br: true, col: true, frame: true,
-    hr: true, img: true, input: true, isindex: true, link: true, meta: true,
-    param: true, embed: true,
+    area: true,
+    base: true,
+    basefont: true,
+    br: true,
+    col: true,
+    frame: true,
+    hr: true,
+    img: true,
+    input: true,
+    isindex: true,
+    link: true,
+    meta: true,
+    param: true,
+    embed: true,
   };
 
   const isUnary = name in emptyElements;
@@ -247,12 +258,14 @@ function parseNext(context) {
       callbackText(context);
       parseEndElement(context);
       return;
-    } if (next === '?' && /^<\?xml/.test(context.substring)) {
+    }
+    if (next === '?' && /^<\?xml/.test(context.substring)) {
       context.read(1);
       callbackText(context);
       parseXmlProlog(context);
       return;
-    } if (context.regex.name.test(next)) {
+    }
+    if (context.regex.name.test(next)) {
       context.read(1);
       callbackText(context);
       parseOpenElement(context);
@@ -316,8 +329,7 @@ function parseNext(context) {
  * Config of data elements like docType, comment and your own custom data elements
  */
 exports.parse = function (htmlString, callbacks, regex) {
-  htmlString = htmlString.replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n');
+  htmlString = htmlString.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   const context = parseContext.create(htmlString, callbacks, regex);
   do {
     parseNext(context);
@@ -369,7 +381,7 @@ exports.sanitize = function (htmlString, removalCallbacks) {
 
   function createArrayCallback(index) {
     const callbackOrArray = removalCallbacks[index] || [];
-    if (typeof(callbackOrArray) === 'function') {
+    if (typeof callbackOrArray === 'function') {
       return function () {
         return callbackOrArray.apply(null, arguments);
       };
@@ -381,7 +393,7 @@ exports.sanitize = function (htmlString, removalCallbacks) {
 
   function createBoolCallback(index) {
     const callbackOrBool = removalCallbacks[index] || false;
-    if (typeof(callbackOrBool) === 'function') {
+    if (typeof callbackOrBool === 'function') {
       return function () {
         return callbackOrBool.apply(null, arguments);
       };
@@ -402,7 +414,8 @@ exports.sanitize = function (htmlString, removalCallbacks) {
     docTypes: createBoolCallback('docTypes'),
   };
 
-  let sanitized = ''; const tagStack = [];
+  let sanitized = '';
+  const tagStack = [];
   const ignoreStack = [];
   const selfClosingTags = {
     meta: 1,
@@ -494,7 +507,9 @@ exports.sanitize = function (htmlString, removalCallbacks) {
       sanitized += ` ${name}`;
       if (value) {
         // reuse the existing quote style if possible
-        sanitized += `=${quote}${(quote === '"') ? value.replace(/"/g, '&quot;') : value.replace(/'/g, '&apos;')}${quote}`;
+        sanitized += `=${quote}${
+          quote === '"' ? value.replace(/"/g, '&quot;') : value.replace(/'/g, '&apos;')
+        }${quote}`;
       }
     },
 
