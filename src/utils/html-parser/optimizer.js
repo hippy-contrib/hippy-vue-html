@@ -12,11 +12,12 @@ exports.optimizeTree = (tree, id = 1) => {
   while (list.length > 0) {
     const node = list.shift();
     if (textTags.includes(node.type) && node && node.content && node.content.length > 0) {
+      node.type = 'text';
       // 打平 span 嵌套、合并样式
       while (node.content.length === 1) {
         const [cid] = node.content;
         const child = tree[cid];
-        node.style = { ...node.style, ...child.style };
+        node.styles = { ...node.styles, ...child.styles };
         node.content = child.content;
         node.text = child.text;
         // eslint-disable-next-line no-param-reassign
@@ -25,6 +26,7 @@ exports.optimizeTree = (tree, id = 1) => {
       // 修正错误节点类型
       if (node.content.length > 1) {
         node.type = 'div';
+        // node.styles = { ...node.styles, display: 'flex', flexWrap: 'wrap' };
       }
     }
     if (textTags.includes(node.type)) continue;
