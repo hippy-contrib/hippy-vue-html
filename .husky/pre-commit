@@ -1,10 +1,9 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-export NVM_DIR="$HOME/.nvm/nvm.sh"
-. "$(dirname $NVM_DIR)/nvm.sh"
-
 export NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+
 a=$(nvm ls | grep 'node')
 b=${a#*(-> }
 v=${b%%[)| ]*}
