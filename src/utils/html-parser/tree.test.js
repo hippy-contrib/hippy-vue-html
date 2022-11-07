@@ -11,7 +11,7 @@ const render = (tree, root = 1) => {
     .join(';');
   // return node.text ? node.text : `<${type}${style ? ` style="${style}"` : ''}>${node.content.map(i => render(tree, i)).join('')}</${type}>`
   return `<${type}${style ? ` style="${style}"` : ''}>${
-    node.text ? node.text : node.content.map((i) => render(tree, i)).join('')
+    node.type === 'text' ? node.text : node.content.map((i) => render(tree, i)).join('')
   }</${type}>`;
 };
 

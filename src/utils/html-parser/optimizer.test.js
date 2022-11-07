@@ -11,7 +11,7 @@ const render = (tree, root = 1) => {
     .join(';');
   // return node.text ? node.text : `<${type}${style ? ` style="${style}"` : ''}>${node.content.map(i => render(tree, i)).join('')}</${type}>`
   return `<${type}${style ? ` style="${style}"` : ''}>${
-    node.text ? node.text : node.content.map((i) => render(tree, i)).join('')
+    node.type === 'text' ? node.text : node.content.map((i) => render(tree, i)).join('')
   }</${type}>`;
 };
 
@@ -130,11 +130,11 @@ describe('optimize dom tree', () => {
       `<div>
 ..<div style="display:flex">
 ....<span><br/>Hello,<br/></span>
-....<div style="color:red">
+....<p style="color:red">
 ......<span><br/>some<br/></span>
 ......<span style="backgroundColor:yellow">one</span>
 ......<span><br/></span>
-....</div>
+....</p>
 ....<span><br/></span>
 ....<span style="fontWeight:bold">!</span>
 ....<span><br/></span>
