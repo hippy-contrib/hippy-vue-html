@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const { parseTree } = require('./tree');
+const { parseTree } = require('../src/utils/html-parser/tree');
 
 const textTags = ['text', 'b', 'i', 'strong'];
 const render = (tree, root = 1) => {

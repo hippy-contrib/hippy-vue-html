@@ -1,10 +1,10 @@
 import HippyVueHtml from './src/components/hippy-vue-html';
 
-const install = function(Vue, opts = {}) {
-    Vue.component("HippyVueHtml", HippyVueHtml);
-}
+const install = (Vue) => {
+  Vue.component('HippyVueHtml', HippyVueHtml);
+};
 
 export default {
-    install,
-    HippyVueHtml,
+  install,
+  HippyVueHtml,
 };

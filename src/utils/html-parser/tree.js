@@ -40,7 +40,7 @@ function transformCamel(str) {
   return str.replace(regex, ($0, $1) => $1.toUpperCase());
 }
 
-exports.parseTree = (html, styles = {}) => {
+export const parseTree = (html, styles = {}) => {
   const stylesMap = Object.assign({}, defaultStylesMap, styles);
   let id = 0; // 使用自增id作为key
 

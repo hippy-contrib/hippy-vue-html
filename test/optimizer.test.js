@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const { optimizeTree } = require('./optimizer');
+const { optimizeTree } = require('../src/utils/html-parser/optimizer');
 
 const textTags = ['text', 'b', 'i', 'strong'];
 const render = (tree, root = 1) => {

@@ -6,7 +6,7 @@ const textTags = ['text', 'b', 'i', 'strong'].concat('span', 'p');
  * @param {Array} [tree] dom tree
  * @param {number} [id] root key of dom tree
  */
-exports.optimizeTree = (tree, id = 1) => {
+export const optimizeTree = (tree, id = 1) => {
   const node = tree[id];
   const list = node ? [node] : [];
   while (list.length > 0) {

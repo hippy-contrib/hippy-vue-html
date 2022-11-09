@@ -1,4 +1,4 @@
-exports.create = function (raw, callbacks, regex) {
+export const create = function (raw, callbacks, regex) {
   let index = 0;
   let current = null;
   let substring = null;
