@@ -328,7 +328,7 @@ function parseNext(context) {
  * @param {Object.<string,DataElementConfig>} [regex.dataElements]
  * Config of data elements like docType, comment and your own custom data elements
  */
-exports.parse = function (htmlString, callbacks, regex) {
+export const parse = function (htmlString, callbacks, regex) {
   htmlString = htmlString.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   const context = parseContext.create(htmlString, callbacks, regex);
   do {
@@ -376,7 +376,7 @@ exports.parse = function (htmlString, callbacks, regex) {
  * @param {Function|Boolean} [removalCallbacks.docTypes] Callback or boolean indicating to strip doc type declarations
  * @return {String} The sanitized HTML
  */
-exports.sanitize = function (htmlString, removalCallbacks) {
+export const sanitize = function (htmlString, removalCallbacks) {
   removalCallbacks = removalCallbacks || {};
 
   function createArrayCallback(index) {
@@ -543,6 +543,6 @@ exports.sanitize = function (htmlString, removalCallbacks) {
     },
   };
 
-  exports.parse(htmlString, callbacks);
+  parse(htmlString, callbacks);
   return sanitized;
 };
