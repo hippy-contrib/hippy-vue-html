@@ -1,6 +1,6 @@
 {
   "name": "hippy-vue-html",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A rich text renderer for hippy-vue",
   "main": "dist/index.js",
   "repository": {
