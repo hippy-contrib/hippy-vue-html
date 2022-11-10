@@ -1,4 +1,4 @@
-const htmlParser = require('./parser');
+import * as htmlParser from './parser';
 
 const singleTags = ['img', 'input']; // br特殊处理
 const supportTags = [

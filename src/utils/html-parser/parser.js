@@ -1,4 +1,4 @@
-const parseContext = require('./context');
+import * as parseContext from './context';
 
 function readAttribute(context) {
   const name = context.readRegex(context.regex.attribute);
